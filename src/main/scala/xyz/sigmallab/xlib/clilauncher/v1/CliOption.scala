@@ -14,12 +14,12 @@ sealed trait CliOptionWithValue[T] extends CliOption {
 
 object CliOption {
 
-    final case class Flag(
+    /*final case class Flag(
         key: String,
         help: String
     ) extends CliOption {
         def apply(args: Arguments): Boolean = ???
-    }
+    }*/
 
     final case class Required[T](
         key: String,

@@ -58,6 +58,7 @@ class ArgumentParserImplV2(args: Seq[String]) extends ArgumentParser {
     import ArgumentParserResult._
 
     override def extract (key : String) : ArgumentParserResult = {
+        println(key, options.get(key))
         options.get(key) match {
             case None => NotFoundKey
             case Some(Nil) => JustKey

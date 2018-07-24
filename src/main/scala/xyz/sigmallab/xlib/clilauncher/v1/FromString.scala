@@ -6,31 +6,30 @@ import scala.util.{ Either, Left, Right }
 
 object FromString {
 
-    class Error private[clilauncher](
-        desc: String,
-        cause: Throwable
-    ) extends RuntimeException(desc, cause)
-
-    def error(desc: String, cause: Throwable = null) =
-        new Error(desc, cause)
-
     def from[T: ClassTag](fn: String => T): FromString[T] = new FromString[T] {
+        val classT = implicitly[ClassTag[T]].runtimeClass
+        override def name: String = s"String => ${classT.getName}"
         override def apply (v : String) : Either[Error, T] = {
             try { Right(fn(v)) } catch {
                 case NonFatal(cause) =>
-                    val msg =
-                        s"Can't Convert ${v}' to ${implicitly[ClassTag[T]].runtimeClass.getName}"
-                    Left(error(msg, cause))
+                    Left(Error(s"Can't Convert ${v}' to ${classT.getName}", cause))
             }
         }
+        override def toString = s"FromString(${name})"
     }
 
 
     implicit val string = from { i => i }
     implicit val long = from { _.toLong }
     implicit val int = from { _.toInt }
+    implicit val bool = from { _.toLowerCase match {
+        case "false" | "no" => false
+        case "true" | "yes" => true
+    }}
 }
 
-trait FromString[T] extends (String => Either[FromString.Error, T])
+trait FromString[T] extends (String => Either[Error, T]) {
+    def name: String
+}
 
 
