@@ -1,4 +1,4 @@
-package xyz.sigmallab.xlib.clilauncher.v1
+package xyz.sigmalab.xlib.clilauncher.v1
 
 import scala.reflect.ClassTag
 import scala.util.control.NonFatal

@@ -1,4 +1,4 @@
-package xyz.sigmallab.xlib.clilauncher.v1
+package xyz.sigmalab.xlib.clilauncher.v1
 
 object ArgumentParser {
 
